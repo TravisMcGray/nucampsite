@@ -1,15 +1,17 @@
 import { Container, Col, Row } from 'reactstrap';
-import Subheader from '../components/Header';
+import SubHeader from '../components/SubHeader';
+import ContactForm from '../components/ContactForm';
 
 const ContactPage = () => {
     return (
         <Container>
-            <Subheader current='Contact' />
+            <SubHeader current='Contact Us' />
+
             <Row className='row-content align-items-center'>
                 <Col sm='4'>
                     <h5>Our Address</h5>
                     <address>
-                        1 Nucamp weay
+                        1 Nucamp Way
                         <br />
                         Seattle, WA 98001
                         <br />
@@ -17,7 +19,7 @@ const ContactPage = () => {
                     </address>
                 </Col>
                 <Col>
-                     <a
+                    <a
                         role='button'
                         className='btn btn-link'
                         href='tel:+12065551234'
@@ -34,17 +36,18 @@ const ContactPage = () => {
                     </a>
                 </Col>
             </Row>
-             <Row className='row-content'>
+
+            <Row className='row-content'>
                 <Col xs='12'>
                     <h2>Send Us Your Feedback</h2>
                     <hr />
                 </Col>
                 <Col md='10'>
-                    TBD: ContactForm
+                    <ContactForm />
                 </Col>
             </Row>
         </Container>
-    )
+    );
 };
 
 export default ContactPage;
