@@ -5,7 +5,7 @@ const initialState = {
     partnersArray: PARTNERS 
 };
 
-const partnerSlice = createSlice({
+const partnersSlice = createSlice({
     name: 'partners',
     initialState
 });
