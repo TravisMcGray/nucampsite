@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
 
 const AnimatedDisplayCard = ({ item }) => {
-    const { image, name, description } = item;
     const [toggle, setToggle] = useState(false);
 
     const animatedStyle = useSpring({
@@ -16,6 +15,9 @@ const AnimatedDisplayCard = ({ item }) => {
         setToggle(true);
     }, []);
     
+    if (!item) return null; // Prevent rendering if item is undefined
+
+    const { image, name, description } = item;
 
     return (
         <animated.div style={animatedStyle}>
