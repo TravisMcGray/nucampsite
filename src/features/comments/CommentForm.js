@@ -4,11 +4,21 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { validateCommentForm } from "../../utils/validateCommentForm";
 import { useDispatch } from "react-redux";
 import { postComment } from "./commentsSlice";
+import { useSelector } from "react-redux";
 
 
 const  CommentForm = ({ campsiteId }) => {
+    console.log(CommentForm)
+    
     const [modalOpen, setModalOpen] = useState(false);
     const dispatch = useDispatch();
+
+    const postCommentStatus = useSelector((state) =>
+        state.comments.postCommentStatus);
+    
+    const postCommentError = useSelector((state) => 
+        state.comments.postCommentError);
+
     const handleSubmit = (values) =>  {
         const comment = {
             id: values.id,
@@ -21,6 +31,7 @@ const  CommentForm = ({ campsiteId }) => {
         console.log(comment);
         dispatch(postComment(comment));
         setModalOpen(false)
+    
     };
 
     return (
@@ -83,6 +94,8 @@ const  CommentForm = ({ campsiteId }) => {
                             <Button type='submit' color='primary'>
                                 Submit
                             </Button>
+                             {postCommentStatus === 'pending' && <div>Submitting...</div>}
+                            {postCommentError && <p>Error: {postCommentError}</p>}
                         </Form>
                     </Formik>
                 </ModalBody>

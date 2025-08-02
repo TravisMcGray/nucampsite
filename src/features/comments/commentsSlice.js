@@ -35,8 +35,11 @@ export const postComment = createAsyncThunk(
 const initialState = {
     commentsArray: [],
     isLoading: true,
-    errMsg: ''
+    errMsg: '',
+    postCommentStatus: 'idle', // this covers all functions of 'idle' | 'pending' | 'succeeded' | 'failed' which are completed in the addCase of extraReducers.
+    postCommentError: null
 };
+    
 
 const commentsSlice = createSlice({
     name: 'comments',
@@ -48,6 +51,7 @@ const commentsSlice = createSlice({
             const newComment = {
                 id: state.commentsArray.length + 1,
                 ...action.payload
+                
             };
             state.commentsArray.push(newComment);
         }
@@ -66,12 +70,22 @@ const commentsSlice = createSlice({
             state.isLoading = false;
             state.errMsg = action.error ? action.error.message : 'Fetch failed';
         })
+            .addCase(postComment.pending, (state) => {
+                state.postCommentStatus = 'pending';
+                state.postCommentError = null;
+        })
+            .addCase(postComment.fulfilled, (state, action) => {
+                state.postCommentStatus = 'succeeded';
+                state.commentsArray.push(action.payload);
+        })
             .addCase(postComment.rejected, (state, action) => {
+                state.postCommentStatus = 'failed';
+                state.postCommentError = action.error.message;
                 alert(
                     'Your comment could not be posted\nError: ' +
                     (action.error ? action.error.message : 'Fetch failed')
                 );
-            });
+        });
     }
 });
 
@@ -82,6 +96,6 @@ export const { addComment } = commentsSlice.actions;
 
 export const selectCommentsByCampsiteId = (campsiteId) => (state) => {
     return state.comments.commentsArray.filter(
-        (comment) => comment.campsiteId === parseInt(campsiteId)
+  (comment) => comment && comment.campsiteId === parseInt(campsiteId)
     );
 };
