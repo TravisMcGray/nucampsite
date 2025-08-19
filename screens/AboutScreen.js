@@ -38,7 +38,7 @@ const AboutScreen = () => {
                                 <ListItem.Subtitle>{partner.description}</ListItem.Subtitle>
                             </ListItem.Content>
                         </ListItem>
-                    ))};
+                    ))}
                 </Card>
         </ScrollView>
     );
