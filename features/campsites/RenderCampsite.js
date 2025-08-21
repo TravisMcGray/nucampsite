@@ -1,14 +1,13 @@
-import { Text, View } from 'react-native';
-import { Card } from 'react-native-elements';
-import { StyleSheet } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Text, View, StyleSheet } from 'react-native';
+import { Card, Icon } from 'react-native-elements';
+import { baseUrl } from '../../shared/baseUrl';
 
 const RenderCampsite = (props) => {
     const { campsite } = props;
     if (campsite) {
         return (
             <Card containerStyle={styles.cardContainer}>
-                <Card.Image source={campsite.image}>
+                <Card.Image source={{ uri: baseUrl + campsite.image }}>
                     <View style={{ justifyContent: 'center', flex:1}}>
                         <Text style={{ color:'white', textAlign: 'center', fontSize: 20 }}>
                             {campsite.name}
@@ -21,7 +20,7 @@ const RenderCampsite = (props) => {
                     type='font-awesome'
                     color='#f50'
                     raised
-                    resverse
+                    reverse
                     onPress={() =>
                         props.isFavorite ? console.log('Already set as favorite')
                         : props.markFavorite()
