@@ -2,14 +2,24 @@ import { PanResponder, Alert, Text, View, StyleSheet } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { baseUrl } from '../../shared/baseUrl';
 import * as Animatable from 'react-native-animatable'
+import { useRef } from 'react';
 
 
 const RenderCampsite = (props) => {
     const { campsite } = props;
+
+    const view = useRef();
+
     const isLeftSwipe = ({ dx }) => dx < -200;
 
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+            view.current
+                .rubberBand(1000)
+                .then((endState) => console.log(endState.finished ? 'finished' : 'canceled')
+            );
+        },
         onPanResponderEnd: (e, gestureState) => {
             console.log('pan responder end', gestureState);
             if (isLeftSwipe(gestureState)) {
@@ -28,8 +38,8 @@ const RenderCampsite = (props) => {
                             text: 'OK',
                             onPress: () => 
                                 props.isFavorite
-                                ? console.log('Already set as a favorite')
-                                : props.markFavorite()
+                                    ? console.log('Already set as a favorite')
+                                    : props.markFavorite()
                         }
                     ],
                     { cancelable: false }
@@ -44,6 +54,7 @@ const RenderCampsite = (props) => {
                 animation='fadeInDownBig'
                 duration={2000}
                 delay={1000}
+                ref={view}
                 {...panResponder.panHandlers}
                 >
                 <Card containerStyle={styles.cardContainer}>
@@ -55,7 +66,6 @@ const RenderCampsite = (props) => {
                         </View>
                     </Card.Image>
                     <Text style={{ margin: 20}}>{campsite.description}</Text>
-
                     <View style={styles.cardRow}>
                         <Icon 
                             name={props.isFavorite ? 'heart' : 'heart-o'}
@@ -74,7 +84,7 @@ const RenderCampsite = (props) => {
                             color='#5637DD'
                             raised
                             reverse
-                            onPress={() => props.onShowModal()}
+                            onPress={props.onShowModal}
                         />
                     </View>
                 </Card>
