@@ -245,7 +245,7 @@ const Main = () => {
         }}
       >
         <Drawer.Screen
-          name="Login"
+          name="LoginNav"
           component={LoginNavigator}
           options={{
             headerShown: false,
